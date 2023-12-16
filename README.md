@@ -3,6 +3,9 @@
 ## Deskripsi Proyek
 Proyek ini adalah eksperimen untuk mengklasifikasikan faktor-faktor yang menyebabkan siswa keluar dari SMK Askhabul Kahfi Semarang. Saya menggunakan tiga teknik klasifikasi berbeda, yaitu Decision Tree, K-Nearest Neighbors (KNN), dan Naive Bayes, untuk mengidentifikasi faktor-faktor tersebut.
 
+## Deployment
+[smkaskha.streamlit.app](https://smkaskha.streamlit.app/)
+
 ## Eksperimen
 
 ### Decision Tree
@@ -22,13 +25,6 @@ Anda dapat menemukan kode eksperimen di repositori ini. Untuk menjalankan kode, 
 2. Instal pustaka yang diperlukan dengan menjalankan `pip install -r requirements.txt`.
 3. Jalankan kode sesuai dengan instruksi yang ada dalam masing-masing direktori eksperimen.
 
-## Hasil dan Analisis
-Hasil eksperimen, termasuk metrik evaluasi dan analisis, dapat ditemukan dalam laporan eksperimen yang disertakan dalam direktori [reports](/reports).
 
 ## Kontribusi
-Anda dipersilakan untuk berkontribusi pada proyek ini dengan menambahkan perbaikan, ekspansi, atau eksperimen tambahan.
-
-## Lisensi
-Proyek ini dilisensikan di bawah [MIT License](LICENSE).
-
-Terima kasih telah mengunjungi repositori ini!
+Anda tidak dipersilahkan dan sangat dilarang menggunakan dataset atau semua file didalam repository ini untuk kepentingan publik yang dapat menyebabkan data SMK Askhabul Kahfi tersebar.
