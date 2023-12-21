@@ -13,8 +13,8 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 
 def prepare_data():
     # Load data
-    data = pd.read_csv("data_numerik_1.csv")
-    dataasli = pd.read_csv("data_smk_askha_clean.csv")
+    data = pd.read_csv("data_numerik.csv")
+    dataasli = pd.read_csv("data_smk_askha_final.csv")
 
     # Split data menjadi data latih dan data uji
     x = data[["JK", "Jenjang Pendidikan Ayh", "Pekerjaan Ayh",
@@ -172,38 +172,58 @@ def display_prediksi(dt_clf, data):
     st.subheader("Prediksi Siswa Mutasi")
     st.write("Masukkan data siswa yang ingin diprediksi:")
 
-    # Variabel dari data asli untuk pengisian selecbox
-    jk_options = data['JK'].unique()
-    jenjang_ayah_options = data['Jenjang Pendidikan Ayh'].unique()
-    pekerjaan_ayah_options = data['Pekerjaan Ayh'].unique()
-    penghasilan_ayah_options = data['Penghasilan Ayh'].unique()
-    pekerjaan_ibu_options = data['Pekerjaan Ibu'].unique()
-    penghasilan_ibu_options = data['Penghasilan Ibu'].unique()
+    # Kamus pemetaan dari teks ke nilai numerik
+    jk_map = {0: 'L', 1: 'P'}
+    jenjang_ayah_map = {0: 'Smp / Sederajat', 1: 'Sma / Sederajat', 2: 'Sd / Sederajat', 3: 'Putus Sd', 4: 'Tidak Sekolah', 5: 'S1', 6: 'D3', 7: 'D1', 8: 'Lainnya', 9: 'D4', 10: 'Tk / Sederajat', 11: 'D2'}
+    pekerjaan_ayah_map = {0: 'Wiraswasta', 1: 'Karyawan Swasta', 2: 'Buruh', 3: 'Petani', 4: 'Pensiunan', 5: 'Rp. 1,000,000 - Rp. 1,999,999', 6: 'Sudah Meninggal', 7: 'Pedagang Kecil', 8: 'Nelayan', 9: 'Peternak', 10: 'Tidak Bekerja', 11: 'Tidak Dapat Diterapkan', 12: 'Lainnya', 13: 'Pns/Tni/Polri', 14: 'Wirausaha', 15: 'Pedagang Besar'}
+    penghasilan_ayah_map = {0: 'Rp. 5,000,000 - Rp. 20,000,000', 1: 'Rp. 500,000 - Rp. 999,999', 2: 'Rp. 1,000,000 - Rp. 1,999,999', 3: 'Rp. 2,000,000 - Rp. 4,999,999', 4: 'Kurang Dari Rp. 500,000', 5: 'Tidak Berpenghasilan', 6: 'Kurang Dari Rp 1.000.000'}
+    # jenjang_ibu_map = {0: 'D3', 1: 'Smp / Sederajat', 2: 'Sd / Sederajat', 3: 'Putus Sd', 4: 'Sma / Sederajat', 5: 'Tidak Sekolah', 6: 'D2', 7: 'S2', 8: 'S1', 9: 'D1', 10: 'D4', 11: 'Lainnya'}
+    pekerjaan_ibu_map = {0: 'Karyawan Swasta', 1: 'Tidak Bekerja', 2: 'Buruh', 3: 'Petani', 4: 'Wiraswasta', 5: 'Pedagang Kecil', 6: 'Lainnya', 7: 'Pedagang Besar', 8: 'Pns/Tni/Polri', 9: 'Wirausaha', 10: 'Peternak', 11: 'Sudah Meninggal', 12: 'Nelayan', 13: 'Tidak Dapat Diterapkan'}
+    penghasilan_ibu_map = {0: 'Rp. 2,000,000 - Rp. 4,999,999', 1: 'Tidak Berpenghasilan', 2: 'Rp. 1,000,000 - Rp. 1,999,999', 3: 'Rp. 500,000 - Rp. 999,999', 4: 'Kurang Dari Rp. 500,000', 5: 'Kurang Dari Rp 1.000.000'}
 
-    # Kolom input untuk variabel
-    jk = st.selectbox("Jenis Kelamin", jk_options)
-    jenjang_ayah = st.selectbox(
-        "Jenjang Pendidikan Ayah", jenjang_ayah_options)
-    pekerjaan_ayah = st.selectbox("Pekerjaan Ayah", pekerjaan_ayah_options)
-    penghasilan_ayah = st.selectbox(
-        "Penghasilan Ayah", penghasilan_ayah_options)
-    pekerjaan_ibu = st.selectbox("Pekerjaan Ibu", pekerjaan_ibu_options)
-    penghasilan_ibu = st.selectbox("Penghasilan Ibu", penghasilan_ibu_options)
+    # Mengonversi teks kembali ke nilai numerik sebelum prediksi
+    jk_options = list(jk_map.values())
+    jenjang_ayah_options = list(jenjang_ayah_map.values())
+    pekerjaan_ayah_options = list(pekerjaan_ayah_map.values())
+    penghasilan_ayah_options = list(penghasilan_ayah_map.values())
+    # jenjang_ibu_options = list(jenjang_ibu_map.values())
+    pekerjaan_ibu_options = list(pekerjaan_ibu_map.values())
+    penghasilan_ibu_options = list(penghasilan_ibu_map.values())
+
+    # Mendapatkan nilai teks yang dipilih oleh pengguna
+    jk_selected_text = st.selectbox("Jenis Kelamin", jk_options)
+    jenjang_ayah_selected_text = st.selectbox("Jenjang Pendidikan Ayah", jenjang_ayah_options)
+    pekerjaan_ayah_selected_text = st.selectbox("Pekerjaan Ayah", pekerjaan_ayah_options)
+    penghasilan_ayah_selected_text = st.selectbox("Penghasilan Ayah", penghasilan_ayah_options)
+    # jenjang_ibu_selected_text = st.selectbox("Jenjang Pendidikan Ibu", jenjang_ibu_options)
+    pekerjaan_ibu_selected_text = st.selectbox("Pekerjaan Ibu", pekerjaan_ibu_options)
+    penghasilan_ibu_selected_text = st.selectbox("Penghasilan Ibu", penghasilan_ibu_options)
+
+    # Mengonversi nilai teks yang dipilih kembali ke nilai numerik
+    jk_selected_value = list(jk_map.keys())[list(jk_map.values()).index(jk_selected_text)]
+    jenjang_ayah_selected_value = list(jenjang_ayah_map.keys())[list(jenjang_ayah_map.values()).index(jenjang_ayah_selected_text)]
+    pekerjaan_ayah_selected_value = list(pekerjaan_ayah_map.keys())[list(pekerjaan_ayah_map.values()).index(pekerjaan_ayah_selected_text)]
+    penghasilan_ayah_selected_value = list(penghasilan_ayah_map.keys())[list(penghasilan_ayah_map.values()).index(penghasilan_ayah_selected_text)]
+    # jenjang_ibu_selected_value = list(jenjang_ibu_map.keys())[list(jenjang_ibu_map.values()).index(jenjang_ibu_selected_text)]
+    pekerjaan_ibu_selected_value = list(pekerjaan_ibu_map.keys())[list(pekerjaan_ibu_map.values()).index(pekerjaan_ibu_selected_text)]
+    penghasilan_ibu_selected_value = list(penghasilan_ibu_map.keys())[list(penghasilan_ibu_map.values()).index(penghasilan_ibu_selected_text)]
+
+    # Gunakan nilai numerik yang sudah dikonversi kembali dalam prediksi
+    input_data = {
+        "JK": jk_selected_value,
+        "Jenjang Pendidikan Ayh": jenjang_ayah_selected_value,
+        "Pekerjaan Ayh": pekerjaan_ayah_selected_value,
+        "Penghasilan Ayh": penghasilan_ayah_selected_value,
+        # "Jenjang Pendidikan Ibu": jenjang_ibu_selected_value,
+        "Pekerjaan Ibu": pekerjaan_ibu_selected_value,
+        "Penghasilan Ibu": penghasilan_ibu_selected_value
+    }
+
+    input_df = pd.DataFrame(input_data, index=[0])
+    prediction = dt_clf.predict(input_df)
 
     # Prediksi berdasarkan input
     if st.button("Prediksi"):
-        input_data = {
-            "JK": jk,
-            "Jenjang Pendidikan Ayh": jenjang_ayah,
-            "Pekerjaan Ayh": pekerjaan_ayah,
-            "Penghasilan Ayh": penghasilan_ayah,
-            "Pekerjaan Ibu": pekerjaan_ibu,
-            "Penghasilan Ibu": penghasilan_ibu
-        }
-
-        input_df = pd.DataFrame(input_data, index=[0])
-        prediction = dt_clf.predict(input_df)
-
         if prediction[0] == 'Mutasi':
             st.write("Siswa berpotensi untuk mutasi.")
         else:
