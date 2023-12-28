@@ -189,12 +189,12 @@ def display_numeric_data(data):
 def display_faktor():
     st.subheader("Faktor Penyebab Mutasi")
     st.write("""
-        1. Jenis Kelamin
-        2. Jenjang Pendidikan Ayah
-        3. Pekerjaan Ayah
-        4. Penghasilan Ayah
-        5. Pekerjaan Ibu
-        6. Penghasilan Ibu            
+        1. Asal Kecamatan
+        2. Alat Transportasi
+        3. Templat Lahir
+        4. Pekerjaan Ayah
+        5. Jenis Kelamin
+        6. Jenjang Pendidikan Ayah            
              """)
 
 # Fungsi prediksi siswa mutasi
