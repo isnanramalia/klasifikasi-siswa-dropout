@@ -174,6 +174,7 @@ def display_correlation(data):
 
 def display_full_data(dataFinal):
     st.write("Seluruh Data:")
+    st.write("Jumlah Record Data: ", len(dataFinal))
     st.write(dataFinal)
 
 # Fungsi untuk Seluruh Data Numerik dengan Tabel
@@ -181,6 +182,7 @@ def display_full_data(dataFinal):
 
 def display_numeric_data(data):
     st.write("Seluruh Data Numerik:")
+    st.write("Jumlah Record Data: ", len(data))
     st.write(data)
 
 # Fungsi faktor penyebab mutasi
@@ -318,7 +320,7 @@ def display_prediksiCSV(uploaded_file, dt_clf, data):
 
                 # Tampilkan nama siswa beserta kemungkinan mutasinya
                 filtered_data['Kemungkinan'] = prediction[filtered_indices]
-                filtered_data['Kemungkinan'].replace({1: "Mutasi", 2: "Dikeluarkan"}, inplace=True)
+                filtered_data['Kemungkinan'].replace({1: "Mutasi", 2: "Dikeluarkan", 3: "Dikeluarkan"}, inplace=True)
                 st.subheader("Data Siswa Berpotensi Mutasi")
                 st.write(filtered_data[['Nama', 'Kemungkinan']])  # Menampilkan nama siswa dan kemungkinan mutasi
             else:
