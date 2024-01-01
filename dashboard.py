@@ -129,21 +129,21 @@ def display_pie_chart(dataFinal):
 # Fungsi untuk Persebaran Data dengan Scatter Plot
 
 
-def display_scatter_plot(dataFinal):
-    option_x = st.selectbox(
-        "Pilih Variabel untuk sumbu X:", list(dataFinal.columns))
-    option_y = st.selectbox(
-        "Pilih Variabel untuk sumbu Y:", list(dataFinal.columns))
+# def display_scatter_plot(dataFinal):
+#     option_x = st.selectbox(
+#         "Pilih Variabel untuk sumbu X:", list(dataFinal.columns))
+#     option_y = st.selectbox(
+#         "Pilih Variabel untuk sumbu Y:", list(dataFinal.columns))
 
-    if option_x and option_y and option_x != option_y:
-        plt.figure(figsize=(8, 6))
-        sns.scatterplot(x=option_x, y=option_y, data=dataFinal)
-        plt.xlabel(option_x)
-        plt.ylabel(option_y)
-        plt.title(f"Scatter Plot: {option_x} vs {option_y}")
-        st.pyplot()
-    else:
-        st.write("Pilih dua variabel yang berbeda untuk sumbu X dan Y.")
+#     if option_x and option_y and option_x != option_y:
+#         plt.figure(figsize=(8, 6))
+#         sns.scatterplot(x=option_x, y=option_y, data=dataFinal)
+#         plt.xlabel(option_x)
+#         plt.ylabel(option_y)
+#         plt.title(f"Scatter Plot: {option_x} vs {option_y}")
+#         st.pyplot()
+#     else:
+#         st.write("Pilih dua variabel yang berbeda untuk sumbu X dan Y.")
 
 # Fungsi untuk Korelasi Data
 
@@ -376,15 +376,15 @@ def main():
     if selected_feature == 'Persebaran Data':
         st.sidebar.subheader('Pilihan Visualisasi Data')
         display_option = st.sidebar.radio(
-            'Pilih Visualisasi:', ['Diagram Batang', 'Pie Chart', 'Scatter Plot', 'Korelasi Data'])
+            'Pilih Visualisasi:', ['Diagram Batang', 'Pie Chart', 'Korelasi Data'])
 
         if display_option == 'Diagram Batang':
             display_bar_chart(dataFinal)
         elif display_option == 'Pie Chart':
             display_pie_chart(dataFinal)
-        elif display_option == 'Scatter Plot':
-            display_scatter_plot(dataFinal)
-            st.set_option('deprecation.showPyplotGlobalUse', False)
+        # elif display_option == 'Scatter Plot':
+        #     display_scatter_plot(dataFinal)
+            # st.set_option('deprecation.showPyplotGlobalUse', False)
         elif display_option == 'Korelasi Data':
             display_correlation(data)
 
